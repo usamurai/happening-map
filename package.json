@@ -1,0 +1,20 @@
+{
+  "author": "nhm tanveer hossain khan <hasan@welltreat.us> (http://hasan.we4tech.com)",
+  "contributors": ["Murshed Ahmmed Khan <murshed2k@gmail.com> (http://www.usamurai.com)"],
+  "name": "happening-map",
+  "description": "A Node.js based live bubbling up twitter & facebook location based event status",
+  "keywords": ["facebook", "twitter", "status grabber", "map"],
+  "version": "0.1.0",
+  "homepage": "http://www.usamurai.com",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/usamurai/happening-map.git"
+  },
+  "engines": {
+    "node": ">=0.4"
+  },
+  "dependencies": {
+    "now": "0.7.6"
+  },
+  "devDependencies": {}
+}
