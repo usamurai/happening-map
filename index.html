@@ -2,10 +2,11 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>Happening Map: See What's Happening</title>
 
 <script type="text/javascript">
-/* API KEY for localhost */
+
+/* API KEY for localhost for testing*/
 var API_KEY = "ABQIAAAAnfs7bKE82qgb3Zc2YyS-oBT2yXp_ZAY8_ufC3CFXhHIE1NvwkxSySz_REpPq-4WZA27OwgbtyR3VcA";
 
 /* similar map based project for us 
@@ -13,7 +14,9 @@ var API_KEY = "ABQIAAAAnfs7bKE82qgb3Zc2YyS-oBT2yXp_ZAY8_ufC3CFXhHIE1NvwkxSySz_RE
  */
 </script>
 
-<script type="text/javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAnfs7bKE82qgb3Zc2YyS-oBT2yXp_ZAY8_ufC3CFXhHIE1NvwkxSySz_REpPq-4WZA27OwgbtyR3VcA"></script>
+<script type="text/javascript" 
+        src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAnfs7bKE82qgb3Zc2YyS-oBT2yXp_ZAY8_ufC3CFXhHIE1NvwkxSySz_REpPq-4WZA27OwgbtyR3VcA">
+</script>
 
 <script type="text/javascript"
         src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js">
@@ -23,17 +26,16 @@ var API_KEY = "ABQIAAAAnfs7bKE82qgb3Zc2YyS-oBT2yXp_ZAY8_ufC3CFXhHIE1NvwkxSySz_RE
         src="public/javascripts/jquery.gmap-1.1.0-min.js">
 </script>
 
-<style type="text/css">
-    html, body {width: 100%; height: 100%}
-    body {margin-top: 0px; margin-right: 0px; margin-left: 0px; margin-bottom: 0px}
-</style>
-  
+<link href="public/stylesheets/styles.css" rel="stylesheet" type="text/css" />
+
 <script type="text/javascript">
   $(document).ready(function() {
     // This is more like it!
 	$("#map1").gMap({ markers: [{ latitude: 47.660937,
                                   longitude: 9.569803,
-                                  zoom: 50 }] });
+                               }],
+                               zoom: 2 
+                   });
 
   });
 
@@ -41,9 +43,6 @@ var API_KEY = "ABQIAAAAnfs7bKE82qgb3Zc2YyS-oBT2yXp_ZAY8_ufC3CFXhHIE1NvwkxSySz_RE
 </script>
 </head>
 <body>
-<h4>happening map </h4>
 <div id="map1" style="width:100%; height: 97%;"></div>
-
-
 </body>
 </html>
