@@ -1,0 +1,1 @@
+coffee -cwl lib/server-wrapper.coffee lib/happening-map/app.coffee lib/happening-map/server.coffee lib/happening-map/util.coffee spec/spec_helper.coffee spec/spec_server_wrapper.coffee spec/happening-map/spec_server.coffee

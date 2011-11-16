@@ -10,11 +10,18 @@
     "type": "git",
     "url": "git://github.com/usamurai/happening-map.git"
   },
+  "bin": {
+    "hm-server": "./bin/hm-server"
+  },
+
   "engines": {
     "node": ">=0.4"
   },
   "dependencies": {
-    "now": "0.7.6"
+    "now": "0.7.6",
+    "express": "2.5.0",
+    "vows": "0.5.13",
+    "futures": ">=2.1.0"
   },
   "devDependencies": {}
 }
