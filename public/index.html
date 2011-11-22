@@ -1,59 +1,75 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<!DOCTYPE html>
+<html xmlns:fb="http://www.facebook.com/2008/fbml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Happening Map: See What's Happening</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Happening Map: See What's Happening</title>
 
-<script type="text/javascript">
+    <script type="text/javascript">
 
-/* API KEY for localhost for testing*/
-var API_KEY = "ABQIAAAAnfs7bKE82qgb3Zc2YyS-oBT2yXp_ZAY8_ufC3CFXhHIE1NvwkxSySz_REpPq-4WZA27OwgbtyR3VcA";
+        /* API KEY for localhost for testing*/
+        var API_KEY = "ABQIAAAAnfs7bKE82qgb3Zc2YyS-oBT2yXp_ZAY8_ufC3CFXhHIE1NvwkxSySz_REpPq-4WZA27OwgbtyR3VcA";
 
-/* similar map based project for us 
- * http://hrmpf.com/maps/photos.html
- */
-</script>
+        /* similar map based project for us
+         * http://hrmpf.com/maps/photos.html
+         */
+    </script>
 
-<script type="text/javascript" 
-        src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAnfs7bKE82qgb3Zc2YyS-oBT2yXp_ZAY8_ufC3CFXhHIE1NvwkxSySz_REpPq-4WZA27OwgbtyR3VcA">
-</script>
+    <script type="text/javascript"
+            src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAnfs7bKE82qgb3Zc2YyS-oBT2yXp_ZAY8_ufC3CFXhHIE1NvwkxSySz_REpPq-4WZA27OwgbtyR3VcA">
+    </script>
 
-<script type="text/javascript"
-        src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js">
-</script>
+    <script type="text/javascript"
+            src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js">
+    </script>
 
-<script type="text/javascript"
-        src="javascripts/jquery.gmap-1.1.0-min.js">
-</script>
+    <script type="text/javascript"
+            src="javascripts/jquery.gmap-1.1.0-min.js">
+    </script>
 
-<link href="stylesheets/styles.css" rel="stylesheet" type="text/css" />
 
-<script type="text/javascript">
-  $(document).ready(function() {
-    
-	$("#map1").gMap({ markers: [{ latitude: 47.660937,
-                                  longitude: 9.569803,
-                                  html: "Tettnang, Germany",
-                                  popup: true
-                               }],
-                               zoom: 2 
-                   });
-
-  });
-</script>
+    <link href="stylesheets/styles.css" rel="stylesheet" type="text/css"/>
 </head>
 
 <body>
+
 <div id="map1"></div>
 
 <script type="text/javascript" src="/nowjs/now.js"></script>
 
 <script type="text/javascript">
-  now.getServerInfo(function(data){
-    alert('From server - ' + data);
-  });
+  now.ready(function() {
+    now.register(new Date().toTimeString(), function(items) {
+      console.log(items);
+      var markers = [];
+      //var map = $("#map1").gMap({markers: markers});
 
+      $.each(items, function(key, value) {
+          //alert(key + ': ' + value);
+       /* markers = [{address : 'dhaka'},
+                  {address : 'chittagong'}];*/
+        console.log ('Key : '+ key + ': value : ' + value.geo);
+
+
+        if (value.geo !=null)
+          {
+            console.log ('Key : '+ key + ': value : ' + value.geo);
+
+           markers.push({ address:value.geo});
+          } 
+      });
+      console.log (markers);
+      //var map = $("#map1").gMap({markers: markers});
+      $("#map1").gMap({ markers: [{ address:'BROADWAY ST/PARK' }] });
+
+    });
+  });
 </script>
+<h1> Twitter</h1>
+
+<div id="tweet"> hello</div>
+<h1> Facebook </h1>
+
+<div id="facebook"> hello</div>
 </body>
 
 </html>

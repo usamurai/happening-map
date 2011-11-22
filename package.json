@@ -11,7 +11,7 @@
     "url": "git://github.com/usamurai/happening-map.git"
   },
   "bin": {
-    "hm-server": "./bin/hm-server"
+    "hm-server": "./bin/hm-server.js"
   },
 
   "engines": {
@@ -21,7 +21,10 @@
     "now": "0.7.6",
     "express": "2.5.0",
     "vows": "0.5.13",
-    "futures": ">=2.1.0"
+    "futures": "2.1.0",
+    "twitter-node": "0.0.2",
+    "twitter":"0.1.17",
+    "facebook-graph":"0.0.6"
   },
   "devDependencies": {}
 }
