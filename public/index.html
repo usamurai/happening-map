@@ -126,13 +126,13 @@
 
     });
 
-    function getFeed(location, search) {
+    function getFeed(location, searchWord) {
 
       var g = new GoogleGeocode(API_KEY);
       g.geocode(location, function(data) {
 
         if (data != null) {
-          now.register(new Date().toTimeString(), data, function(items) {
+          now.register(new Date().toTimeString(), searchWord, data, function(items) {
             var markers = [];
             $.each(items, function(index, item) {
               console.log(index + ': ' + item.toSource());
