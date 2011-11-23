@@ -2,10 +2,11 @@
 
 var util = require('util'),
     nowjs = require("now"),
+    sys   = require('sys'),
     server = require('../lib/server-wrapper');
 
 var registeredServices = [];
-
+var location;
 
 server
     .configure()
@@ -16,7 +17,11 @@ server
       var everyone = nowjs.initialize(expressServer);
       var registeredServices = [];
 
-      everyone.now.register = function(key, callback) {
+      everyone.now.register = function(key,data,callback) {
+
+        console.log ('Location :' + sys.inspect (data));
+        location = data;
+        //console.log ('Location' +location);
         console.log('Registering callback on ' + key);
         registeredServices[key] = callback;
 
@@ -25,8 +30,8 @@ server
       };
 
       setInterval(function() {
-        console.log('Retrieving social streams');
-        config.app.socialStream.all(function(items) {
+        //console.log(' Retrieving social streams ' + location);
+        config.app.socialStream.all(location,function(items) {
           for (var key in registeredServices) {
             registeredServices[key](items);
           }

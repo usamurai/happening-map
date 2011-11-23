@@ -1,75 +1,188 @@
 <!DOCTYPE html>
 <html xmlns:fb="http://www.facebook.com/2008/fbml">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Happening Map: See What's Happening</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Happening Map: See What's Happening</title>
 
-    <script type="text/javascript">
+  <script type="text/javascript">
 
-        /* API KEY for localhost for testing*/
-        var API_KEY = "ABQIAAAAnfs7bKE82qgb3Zc2YyS-oBT2yXp_ZAY8_ufC3CFXhHIE1NvwkxSySz_REpPq-4WZA27OwgbtyR3VcA";
+    /* API KEY for localhost for testing*/
+    var API_KEY = "ABQIAAAAnfs7bKE82qgb3Zc2YyS-oBT2yXp_ZAY8_ufC3CFXhHIE1NvwkxSySz_REpPq-4WZA27OwgbtyR3VcA";
+    var locations;
 
-        /* similar map based project for us
-         * http://hrmpf.com/maps/photos.html
-         */
-    </script>
+    /* similar map based project for us
+     * http://hrmpf.com/maps/photos.html
+     */
+  </script>
 
-    <script type="text/javascript"
-            src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAnfs7bKE82qgb3Zc2YyS-oBT2yXp_ZAY8_ufC3CFXhHIE1NvwkxSySz_REpPq-4WZA27OwgbtyR3VcA">
-    </script>
+  <script type="text/javascript"
+          src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAnfs7bKE82qgb3Zc2YyS-oBT2yXp_ZAY8_ufC3CFXhHIE1NvwkxSySz_REpPq-4WZA27OwgbtyR3VcA">
+  </script>
 
-    <script type="text/javascript"
-            src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js">
-    </script>
+  <script type="text/javascript"
+          src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js">
+  </script>
 
-    <script type="text/javascript"
-            src="javascripts/jquery.gmap-1.1.0-min.js">
-    </script>
+  <script type="text/javascript"
+          src="javascripts/jquery.gmap-1.1.0-min.js">
+  </script>
+  <script type="text/javascript"
+
+          src="http://maps.google.com/maps/api/js?sensor=false">
+
+  </script>
 
 
-    <link href="stylesheets/styles.css" rel="stylesheet" type="text/css"/>
+  <link href="stylesheets/styles.css" rel="stylesheet" type="text/css"/>
 </head>
 
 <body>
+
+
+<h1> Twitter</h1>
+
+<div id="">
+  <input type="text" id="address" name="address" value="please type location address"/>
+  <input type="text" id="keyword" name="keyword" value="please type search Keywords"/>
+
+  <input type="button" id="searchBtn" name="Search" value="search"/>
+
+</div>
+<br>
+
+<div style="class:clear"></div>
 
 <div id="map1"></div>
 
 <script type="text/javascript" src="/nowjs/now.js"></script>
 
 <script type="text/javascript">
-  now.ready(function() {
-    now.register(new Date().toTimeString(), function(items) {
-      console.log(items);
-      var markers = [];
-      //var map = $("#map1").gMap({markers: markers});
 
-      $.each(items, function(key, value) {
-          //alert(key + ': ' + value);
-       /* markers = [{address : 'dhaka'},
-                  {address : 'chittagong'}];*/
-        console.log ('Key : '+ key + ': value : ' + value.geo);
+  var address ,locations,keyword;
 
 
-        if (value.geo !=null)
-          {
-            console.log ('Key : '+ key + ': value : ' + value.geo);
+  function GoogleGeocode(apiKey) {
+    this.apiKey = apiKey;
+    this.geocode = function(address, callbackFunction) {
 
-           markers.push({ address:value.geo});
-          } 
+      $.ajax({
+        dataType: 'jsonp',
+        url: 'http://maps.google.com/maps/geo?output=json&oe=utf8&sensor=false'
+            + '&key=' + this.apiKey + '&q=' + address,
+        cache: false,
+        success: function(data) {
+          if (data.Status.code == 200) {
+            var result = {};
+            /*var ad = data.Placemark[0].AddressDetails.Country.AdministrativeArea;
+             result.streetAddress = ad.Locality.Thoroughfare && ad.Locality.Thoroughfare.ThoroughfareName ? ad.Locality.Thoroughfare.ThoroughfareName : '';
+             result.city = ad.Locality && ad.Locality.LocalityName ? ad.Locality.LocalityName : '';
+             result.state = ad && ad.AdministrativeAreaName ? ad.AdministrativeAreaName : '';
+             result.zip = ad.Locality.PostalCode && ad.Locality.PostalCode.PostalCodeNumber ? ad.Locality.PostalCode.PostalCodeNumber : '';
+             */
+            result.location = data.Placemark[0].Point;
+            result.longitude = data.Placemark[0].Point.coordinates[0];
+            result.latitude = data.Placemark[0].Point.coordinates[1];
+            callbackFunction(result);
+          } else {
+            callbackFunction(null);
+          }
+        }
       });
-      console.log (markers);
-      //var map = $("#map1").gMap({markers: markers});
-      $("#map1").gMap({ markers: [{ address:'BROADWAY ST/PARK' }] });
+    };
+  }
+
+
+  $(function() {
+    // Handler for .ready() called.
+
+
+  });
+
+
+  now.ready(function() {
+
+    getFeed('usa', 'accident');
+
+    //alert('address' + address);
+    //alert('keyword' + keyword);
+
+    $('#address').focus(function() {
+      $('#address').val('');
 
     });
+
+    $("#keyword").focus(function() {
+      //$("txt_uername").append("<img src="worng.jpg">")
+      $('#keyword').val('');
+    });
+
+
+    $('#searchBtn').click(function() {
+      alert('Handler for .click() called.');
+      address = $('#address').val();
+      keyword = $('#keyword').val();
+
+      getFeed(address, keyword);
+
+    });
+
+    function getFeed(location, search) {
+
+      var g = new GoogleGeocode(API_KEY);
+      g.geocode(location, function(data) {
+
+        if (data != null) {
+          now.register(new Date().toTimeString(), data, function(items) {
+            var markers = [];
+            $.each(items, function(index, item) {
+              console.log(index + ': ' + item.toSource());
+              //alert(index + ': ' + value);
+              if (index>5){return false;}
+
+              if (item.address != '') {
+                //console.log (index + ': ' + item.address);
+                markers.push({address:item.address,html:item.text,popup:true});
+
+                setInterval(function (){
+
+                $("#map1").gMap({ markers: [
+                      {address:item.address,html:item.text}
+                 ] });
+
+
+                },10000);
+
+
+                 //return false;
+
+              }
+
+
+            });
+
+            //console.log('Markers ' + markers.toSource());
+            /*if (markers) {
+              $("#map1").gMap({ markers: [
+                markers
+              ],
+                zoom: 2
+              });
+            }*/
+
+          });
+
+        } else {
+          alert('ERROR! Unable to geocode address');
+        }
+
+
+      });
+
+
+    }
+
   });
 </script>
-<h1> Twitter</h1>
-
-<div id="tweet"> hello</div>
-<h1> Facebook </h1>
-
-<div id="facebook"> hello</div>
 </body>
 
 </html>
