@@ -11,7 +11,7 @@
     var locations;
 
     /* similar map based project for us
-     * http://hrmpf.com/maps/photos.html
+       * http://hrmpf.com/maps/photos.html
      */
   </script>
 
@@ -29,21 +29,18 @@
   <script type="text/javascript"
 
           src="http://maps.google.com/maps/api/js?sensor=false">
-
-  </script>
-
-
-  <link href="stylesheets/styles.css" rel="stylesheet" type="text/css"/>
+</script>
+<link href="stylesheets/styles.css" rel="stylesheet" type="text/css"/>
 </head>
 
 <body>
 
 
-<h1> Twitter</h1>
+<h1> Happening Map </h1>
 
 <div id="">
-  <input type="text" id="address" name="address" value="please type location address"/>
-  <input type="text" id="keyword" name="keyword" value="please type search Keywords"/>
+  <label> Address :  </label></label><input type="text" id="address" name="address" value="usa"/>
+  <label> KeyWord :  </label></label><input type="text" id="keyword" name="keyword" value="accident"/>
 
   <input type="button" id="searchBtn" name="Search" value="search"/>
 
@@ -63,6 +60,7 @@
 
   function GoogleGeocode(apiKey) {
     this.apiKey = apiKey;
+
     this.geocode = function(address, callbackFunction) {
 
       $.ajax({
@@ -92,33 +90,37 @@
   }
 
 
-  $(function() {
-    // Handler for .ready() called.
-
-
-  });
+  function createMarker(point) {
+      //var icon = new GIcon(baseIcon);
+      //icon.image = iconname.getAttribute("image");
+      var marker = new GMarker(point);
+      //GEvent.addListener(marker, "click", function() {marker.openInfoWindowHtml(info.childNodes[2].firstChild.data);});
+      return marker;
+}
 
 
   now.ready(function() {
+    var markers = [];
+    //$("#map1").gMap({ markers: markers});
+
+    var map = new GMap(document.getElementById("map1"));
+    map.addControl(new GLargeMapControl());
+    map.addControl(new GMapTypeControl());
+    map.centerAndZoom(new GPoint(103.86474609375, 32.11980111179328), 15);
+
 
     getFeed('usa', 'accident');
 
-    //alert('address' + address);
-    //alert('keyword' + keyword);
-
     $('#address').focus(function() {
-      $('#address').val('');
-
+        $('#address').val('');
     });
 
     $("#keyword").focus(function() {
-      //$("txt_uername").append("<img src="worng.jpg">")
       $('#keyword').val('');
     });
 
 
     $('#searchBtn').click(function() {
-      alert('Handler for .click() called.');
       address = $('#address').val();
       keyword = $('#keyword').val();
 
@@ -127,47 +129,49 @@
     });
 
     function getFeed(location, searchWord) {
-
+      
       var g = new GoogleGeocode(API_KEY);
-      g.geocode(location, function(data) {
+      //var map = new gMap(document.getElementById("map1"));
 
+      g.geocode(location, function(data) {
         if (data != null) {
           now.register(new Date().toTimeString(), searchWord, data, function(items) {
             var markers = [];
             $.each(items, function(index, item) {
               console.log(index + ': ' + item.toSource());
-              //alert(index + ': ' + value);
-              if (index>5){return false;}
+              /*if (index > 5) {
+                return false;
+              }*/
 
               if (item.address != '') {
-                //console.log (index + ': ' + item.address);
-                markers.push({address:item.address,html:item.text,popup:true});
+                setInterval(function () {
+                console.log ('geo location : '+ g);
+                  g.geocode(item.address, function(data) {
+                  if (data !=null)
+                  {
+                  console.log ('data ' + data.toSource());
+                    var point = new GPoint(parseFloat(data.longitude),parseFloat(data.latitude));
+                  var marker = createMarker(point);
+                  map.addOverlay(marker);
+                  }
 
-                setInterval(function (){
+                  });
 
-                $("#map1").gMap({ markers: [
-                      {address:item.address,html:item.text}
-                 ] });
-
-
-                },10000);
-
-
-                 //return false;
+                  //markers.push({address: item.address, html: item.text, popup: true});
+                }, 10000);
 
               }
-
 
             });
 
             //console.log('Markers ' + markers.toSource());
             /*if (markers) {
-              $("#map1").gMap({ markers: [
-                markers
-              ],
-                zoom: 2
-              });
-            }*/
+             $("#map1").gMap({ markers: [
+             markers
+             ],
+             zoom: 2
+             });
+             }*/
 
           });
 

@@ -23,7 +23,8 @@
     "vows": "0.5.13",
     "futures": "2.1.0",
     "twitter":"0.1.17",
-    "facebook-graph":"0.0.6"
+    "facebook-graph":"0.0.6",
+    "geocoder":"0.0.5"
   },
   "devDependencies": {}
 }
