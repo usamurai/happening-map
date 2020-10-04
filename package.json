@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "now": "0.7.6",
-    "express": "2.5.0",
+    "express": "4.17.1",
     "vows": "0.5.13",
     "futures": "2.1.0",
     "twitter":"0.1.17",
